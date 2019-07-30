@@ -1,6 +1,6 @@
 {
   "name": "scratchspace",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Ramblings and projects not mature enough to go into their own repository",
   "main": "index.js",
   "scripts": {
