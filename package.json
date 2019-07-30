@@ -1,0 +1,19 @@
+{
+  "name": "scratchspace",
+  "version": "0.1.0-alpha.0",
+  "description": "Ramblings and projects not mature enough to go into their own repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wesleyakio/scratchspace.git"
+  },
+  "author": "Wesley Akio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wesleyakio/scratchspace/issues"
+  },
+  "homepage": "https://github.com/wesleyakio/scratchspace#readme"
+}
