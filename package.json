@@ -4,7 +4,11 @@
   "description": "Ramblings and projects not mature enough to go into their own repository",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "jest",
+    "watch": "jest --watch",
+    "coverage": "jest --coverage",
+    "jsdoc": "jsdoc -p",
+    "eslint": "eslint"
   },
   "repository": {
     "type": "git",
@@ -15,5 +19,15 @@
   "bugs": {
     "url": "https://github.com/wesleyakio/scratchspace/issues"
   },
-  "homepage": "https://github.com/wesleyakio/scratchspace#readme"
+  "homepage": "https://github.com/wesleyakio/scratchspace#readme",
+  "dependencies": {
+    "big.js": "^5.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "jest-junit": "^7.0.0",
+    "jsdoc": "^3.6.3"
+  }
 }
