@@ -1,13 +1,14 @@
 {
-  "name": "scratchspace",
-  "version": "0.1.0-alpha.2",
+  "name": "@wesleyakio/scratchspace",
+  "version": "0.1.0-alpha.6",
   "description": "Ramblings and projects not mature enough to go into their own repository",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "watch": "jest --watch",
     "coverage": "jest --coverage",
-    "jsdoc": "jsdoc -p",
+    "jsdoc": "jsdoc -p -c .jsdoc.config.js -d ./docs",
+    "docs-cash": "jsdoc2md -c .jsdoc.config.js --files cash/**/* > cash/README.md",
     "eslint": "eslint"
   },
   "repository": {
@@ -21,16 +22,19 @@
   },
   "homepage": "https://github.com/wesleyakio/scratchspace#readme",
   "dependencies": {
-    "big.js": "^5.2.2"
+    "big.js": "^5.2.2",
+    "firebase-admin": "^8.3.0"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
     "jest-junit": "^7.0.0",
-    "jsdoc": "^3.6.3"
+    "jsdoc": "^3.6.3",
+    "jsdoc-to-markdown": "^5.0.0"
   },
   "files": [
-    "/cash"
+    "/cash",
+    "/firestore-tools"
   ]
 }

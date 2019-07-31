@@ -1,15 +1,17 @@
 'use strict';
 
 const Big = require('big.js');
+const Currencies = require('./Currencies');
 
-// FIXME supported currencies must go somewhere else
-const Currencies = {
-  USD: {code: 'USD', decimalPlaces: 2, localSymbol: '$'},
-  BRL: {code: 'BRL', decimalPlaces: 2, localSymbol: 'R$'}
-};
-
+/**
+ * Money representation somewhat based on Martin Fowler's P of EAA
+ */
 class Money {
-  constructor(amount, currency = 'USD') {
+  /**
+   * @param amount {Number|String|Big} - The amount for this quantity. ie: 1.99
+   * @param currency {String} - The Currency code for this quantity as available in {@link Currencies}
+   */
+  constructor(amount = 0, currency = 'USD') {
     if (!Currencies[currency]) {
       throw new Error(`Unknown currency ${currency}`);
     }
@@ -23,6 +25,14 @@ class Money {
     this.amount = this.Big(amount);
   }
 
+  /**
+   * Get a value from anything that can be cast into an amount
+   *
+   * When passed in a Money instance checks if the currency matches, when passed anything else just punch it through
+   *
+   * @param operand {Money|*} - Either a Money instance or Anything that can be cast by [Big]{@link https://mikemcl.github.io/big.js/}
+   * @returns {Big} - An instance of [Big]{@link https://mikemcl.github.io/big.js/}
+   */
   getAmount(operand) {
     // If the operand has a currency and it is
     if (operand instanceof Money && this.currency.code !== operand.currency.code) throw new Error(`Currencies do not match: ${this.currency.code} != ${operand.currency.code}`);
@@ -34,6 +44,11 @@ class Money {
     }
   }
 
+  /**
+   *
+   * @param value {Number|String|*} -
+   * @returns {Money}
+   */
   monefy(value) {
     return new Money(this.Big(value).round(this.Big.DP), this.currency.code);
   }
@@ -85,7 +100,7 @@ class Money {
 
     // Divide the ideal fractions with a predictable ROUND_UP
     parts.forEach((amount, i) => {
-      results[i] = this.amount.times(amount).round(this.currency.decimalPlaces, 1);
+      results[i] = this.amount.times(amount).round(this.currency.decimalPlaces, 3);
     });
 
     // subtract a cent for each value until we get to the original number we want

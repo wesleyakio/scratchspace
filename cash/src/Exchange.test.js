@@ -28,7 +28,7 @@ describe('Testing Constructor', () => {
     }).toThrow('Expecting');
   });
 
-  it('should fail without a rate Currency', () => {
+  it('should succeed if provided accurate data', () => {
     expect(new Exchange({source: 'USD', destination: 'BRL', rate: 3.79})).toBeInstanceOf(Exchange);
   });
 });
