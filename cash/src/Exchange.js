@@ -31,8 +31,9 @@ class Exchange {
       throw new Error(`Exchanging from ${this.source} to ${this.destination} but given an amount in ${amount.currency.code}`);
     }
 
-    let converted = new Money(this.rate, this.destination);
-    return converted.mul(amount.amount);
+    let converted = new Money(this.rate, this.destination).mul(amount.amount);
+    converted._exchange = this;
+    return converted;
   }
 }
 

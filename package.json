@@ -1,10 +1,10 @@
 {
-  "name": "@wesleyakio/scratchspace",
+  "name": "scratchspace",
   "version": "0.1.0-alpha.6",
   "description": "Ramblings and projects not mature enough to go into their own repository",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest -c jest.config.js",
     "watch": "jest --watch",
     "coverage": "jest --coverage",
     "jsdoc": "jsdoc -p -c .jsdoc.config.js -d ./docs",

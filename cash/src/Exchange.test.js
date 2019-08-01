@@ -72,4 +72,10 @@ describe('Testing Conversion', () => {
 
     expect(exchange.convert(amount).toString()).toEqual('569.30 (R$/BRL)');
   });
+
+  it('should be present in the resulting Money instance', () => {
+    let amount = new Money(150, 'USD');
+    let exchange = new Exchange({source: 'USD', destination: 'BRL', rate: 3.7953});
+    expect(exchange.convert(amount)._exchange).toEqual(exchange);
+  });
 });
