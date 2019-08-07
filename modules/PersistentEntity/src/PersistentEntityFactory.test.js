@@ -1,7 +1,7 @@
 'use strict';
 
 const PersistentEntityFactory = require('./PersistentEntityFactory');
-const MemoryStorage = require('./MemoryStorage');
+const MemoryStorage = require('../../Storage').MemoryStorage;
 
 describe('PersistentEntity base test', () => {
   let MyTestClass;
@@ -47,7 +47,7 @@ describe('PersistentEntity base test', () => {
   });
 
   it('Should fail to load', async () => {
-    expect(MyTestClass.load('asdf')).rejects.toThrow('Entry not found');
+    await expect(MyTestClass.load('asdf')).rejects.toThrow('Entry not found');
   });
 
   it('Should load', async () => {

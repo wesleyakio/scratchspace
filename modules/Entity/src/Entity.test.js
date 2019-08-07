@@ -48,11 +48,47 @@ describe('Basic inflate and deflate', () => {
     expect(JSON.stringify(tst)).toEqual(JSON.stringify(data));
   })
 });
-//
-// describe.only('Should support mapping children', () => {
-//   it('Should fail on a non function map', () => {
-//     let tst = new TstClass({map: {test: 'hallo'}});
-//     tst['test'] = 'test';
-//     expect(tst.deflate()).toEqual({'entityVersion': 'v1', '_test': '_test', 'test': 'test'});
-//   })
-// });
+
+describe('Should support mapping children', () => {
+  it('Should fail on a non function map', () => {
+
+    let map = {
+      test: 'hallo'
+    };
+
+    let tst = new TstClass({map});
+
+    expect(() => {
+      tst.inflate({'entityVersion': 'v1', '_test': '_test', 'test': 'test'});
+    }).toThrow('Mapper expects a callback, hallo given');
+  });
+
+  it('Should succeed on a function map', () => {
+
+    let map = {
+      test: data => data.toUpperCase(),
+      _test: data => {
+        return {meh: data}
+      }
+    };
+
+    let tst = new TstClass({map});
+
+    tst.inflate({'entityVersion': 'v1', '_test': '_test', 'test': 'test'});
+
+    expect(tst.deflate()).toEqual({'entityVersion': 'v1', '_test': {meh: '_test'}, 'test': 'TEST'});
+  });
+
+  it('Should work with arrays', () => {
+
+    let map = {
+      test: data => data.toUpperCase()
+    };
+
+    let tst = new TstClass({map});
+
+    tst.inflate({'test': ['test', 'tist', 'tost', 'tust']});
+
+    expect(tst.deflate()).toEqual({'entityVersion': 'v1', 'test': ['TEST', 'TIST', 'TOST', 'TUST']});
+  })
+});

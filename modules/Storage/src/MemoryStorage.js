@@ -1,3 +1,5 @@
+'use strict';
+
 class MemoryStorage {
   constructor({connection = {}, namespace}) {
     // This implementation does not need a connection so we'll accept an object if it's passed down to us.
@@ -53,6 +55,7 @@ class MemoryStorage {
 
   async save(key, data) {
     this.bucket[key] = detach(data);
+    return detach(data);
   }
 }
 

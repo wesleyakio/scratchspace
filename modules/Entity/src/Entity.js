@@ -27,12 +27,15 @@ class Entity {
       if (!this['.map'][key]) {
         this[key] = object[key];
       } else {
-        if(!(this['.map'][key] instanceof Function)) throw new Error(`Mapper expects a callback, ${this['.map'][key]} given`);
+        if (!(this['.map'][key] instanceof Function)) throw new Error(`Mapper expects a callback, ${this['.map'][key]} given`);
 
-        if(Array.isArray(object[key])){
-
+        if (Array.isArray(object[key])) {
+          this[key] = [];
+          object[key].forEach(item => {
+            this[key].push(this['.map'][key](item, this));
+          })
         } else {
-
+          this[key] = this['.map'][key](object[key], this);
         }
       }
     });

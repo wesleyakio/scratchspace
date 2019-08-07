@@ -1,6 +1,6 @@
 'use strict';
 
-const Entity = require('./Entity');
+const Entity = require('../../Entity').Entity;
 
 /**
  *
