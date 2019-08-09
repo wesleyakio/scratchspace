@@ -26,9 +26,10 @@ function getPersistentEntity(storage) {
 
     async save(key) {
       if (!key && !this._id) {
-        return Promise.reject(new Error('Missing Id'));
+        throw new Error('Missing Id');
       }
-      return storage.save(key || this._id, this);
+      await storage.save(key || this._id, this);
+      return this;
     }
   }
 
