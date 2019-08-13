@@ -12,7 +12,7 @@ admin.initializeApp({
 
 let connection = admin.firestore();
 
-describe('MemoryStore smoke test', () => {
+describe('FirebaseStorage smoke test', () => {
   /**
    * @type {Storage}
    */
@@ -94,9 +94,21 @@ describe('MemoryStore smoke test', () => {
     await expect(storage.getByProperty('name', 'hey', '_private')).resolves.toEqual(data3);
 
   });
+
+  it('Should search multiple fields', async () => {
+    let data1 = {entityVersion: 'v1', name: 'hey', _private: 'hi', _id: 'asdf'};
+    let data2 = {entityVersion: 'v1', name: 'hey', _private: 'ho', _id: 'asdg'};
+    let data3 = {entityVersion: 'v1', name: 'hey', _private: 'hu', _id: 'asdh'};
+    await storage.save('asdh', data3);
+    await storage.save('asdf', data1);
+    await storage.save('asdg', data2);
+
+    await expect(storage.getQuery().where('name', '==', 'hey').where('_private', '==', 'hu').get()).resolves.toEqual([data3]);
+    await expect(storage.getQuery().where('name', '==', 'hey').where('_private', '==', 'ho').get()).resolves.toEqual([data2]);
+  });
 });
 
-describe('MemoryStore namespace isolation', () => {
+describe('FirebaseStorage namespace isolation', () => {
 
   it('Should share backing storage', async () => {
     let storage1 = new FirebaseStorage({connection, namespace: 'hallo'});

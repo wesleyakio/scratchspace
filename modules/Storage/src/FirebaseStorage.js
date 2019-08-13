@@ -2,6 +2,8 @@
 
 const admin = require("firebase-admin/lib/index");
 
+const Query = require('./Query');
+
 class FirebaseStorage {
   constructor({connection, namespace, options}) {
     this.connection = connection;
@@ -24,19 +26,51 @@ class FirebaseStorage {
   }
 
   async getByProperty(name, value, sortBy, order = 'asc') {
-    let snapshot = await this.connection.collection(this.namespace).where(name, '==', value).orderBy(sortBy, order).limit(1).get();
+    let resultSet = await this.getQuery().where(name, '==', value).orderBy(sortBy, order).limit(1).get();
 
-    if (snapshot.empty) {
-      throw Error('No entries found');
-    } else {
-      let data = {};
-      snapshot.forEach(doc => {
-        data = doc.data();
-      });
-      return data;
+    if (!resultSet.length) {
+      throw new Error('No entries found');
     }
+    return resultSet[0];
+  }
+
+  async runQuery(filters) {
+    let snapshot = this.connection.collection(this.namespace);
+    filters.forEach(filter => {
+      if (!queryRunners[filter.type]) throw new Error(`Unsupported filter ${filter.type}`);
+      snapshot = queryRunners[filter.type](filter, snapshot);
+    });
+
+    snapshot = await snapshot.get();
+
+    let data = [];
+
+    if (!snapshot.empty) {
+      snapshot.forEach(doc => {
+        data.push(doc.data());
+      });
+    }
+
+    return data;
+  }
+
+  getQuery(){
+    return new Query(this);
   }
 }
+
+let queryRunners = {
+  where({field, comparator, value}, snapshot) {
+    if (comparator !== '==') throw new Error('Only exact matches (==) are supported right now');
+    return snapshot.where(field, '==', value);
+  },
+  orderBy({field, order}, snapshot) {
+    return snapshot.orderBy(field, order);
+  },
+  limit({count}, snapshot) {
+    return snapshot.limit(count);
+  }
+};
 
 function detach(data) {
   return JSON.parse(JSON.stringify(data));

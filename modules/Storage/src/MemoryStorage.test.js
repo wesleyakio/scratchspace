@@ -83,6 +83,18 @@ describe('MemoryStore smoke test', () => {
     await expect(storage.getByProperty('name', 'hey', '_private')).resolves.toEqual(data3);
 
   });
+
+  it('Should search multiple fields', async () => {
+    let data1 = {entityVersion: 'v1', name: 'hey', _private: 'hi', _id: 'asdf'};
+    let data2 = {entityVersion: 'v1', name: 'hey', _private: 'ho', _id: 'asdg'};
+    let data3 = {entityVersion: 'v1', name: 'hey', _private: 'hu', _id: 'asdh'};
+    storage.save('asdh', data3);
+    storage.save('asdf', data1);
+    storage.save('asdg', data2);
+
+    await expect(storage.getQuery().where('name', '==', 'hey').where('_private', '==', 'hu').get()).resolves.toEqual([data3]);
+    await expect(storage.getQuery().where('name', '==', 'hey').where('_private', '==', 'ho').get()).resolves.toEqual([data2]);
+  });
 });
 
 describe('MemoryStore namespace isolation', () => {
