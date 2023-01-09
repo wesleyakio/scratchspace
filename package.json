@@ -23,7 +23,7 @@
   "homepage": "https://github.com/wesleyakio/scratchspace#readme",
   "dependencies": {
     "big.js": "^5.2.2",
-    "firebase-admin": "^8.3.0"
+    "firebase-admin": "^11.4.1"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
